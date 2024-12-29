@@ -35,19 +35,19 @@ CREATE TABLE SZOBA (
     
 );
 
---bárhány idõpont, nem tudjuk melyik szobában lesznek, és ki lesz a dokisegédje.
+--bÃ¡rhÃ¡ny idÅ‘pont, nem tudjuk melyik szobÃ¡ban lesznek, Ã©s ki lesz a dokisegÃ©dje.
 CREATE TABLE IDOPONT (
     IDOPONT_ID      NUMBER(10)     NOT NULL,
-    TAJSZAM         CHAR(9)        NOT NULL,  -- Páciens
+    TAJSZAM         CHAR(9)        NOT NULL,  -- PÃ¡ciens
     DOKTOR_ID       NUMBER(2)     NOT NULL,
     ASSZISZTENS_ID  NUMBER(2),    
     SZOBA_ID        NUMBER(2),     
-    DATUM           DATE           NOT NULL,  -- A nap, amikor jön
-    KEZDES_IDO      time,                    -- Pontos kezdés (dátum+idõ)
-    VEGE_IDO        time,                    -- Pontos befejezés
-    MEGJEGYZES      VARCHAR2(200),           -- Pl. "elsõ konzultáció"
+    DATUM           DATE           NOT NULL,  -- A nap, amikor jÃ¶n
+    KEZDES_IDO      DATE,                    -- Pontos kezdÃ©s (dÃ¡tum+idÅ‘)
+    VEGE_IDO        DATE,                    -- Pontos befejezÃ©s
+    MEGJEGYZES      VARCHAR2(200),           -- Pl. "elsÅ‘ konzultÃ¡ciÃ³"
     CONSTRAINT PK_IDOPONT PRIMARY KEY (IDOPONT_ID),
-    -- Külsõ kulcsok
+    -- KÃ¼lsÅ‘ kulcsok
     CONSTRAINT FK_IDOPONT_PACIENS    FOREIGN KEY (TAJSZAM) 
         REFERENCES PACIENS(TAJSZAM),
     CONSTRAINT FK_IDOPONT_DOKTOR     FOREIGN KEY (DOKTOR_ID) 
@@ -72,16 +72,16 @@ CREATE TABLE KEZELES (
 
 CREATE TABLE BEAVATKOZAS (
     BEAVATKOZAS_ID   NUMBER(10)     NOT NULL,
-    BEAVATKOZAS_NEVE              VARCHAR2(20)  NOT NULL, -- 20 karakterben csak elfér egy név
-    ALAPDIJ          NUMBER(7),            --millioknal ugyse kerül többe
+    BEAVATKOZAS_NEVE              VARCHAR2(20)  NOT NULL, -- 20 karakterben csak elfÃ©r egy nÃ©v
+    ALAPDIJ          NUMBER(7),            --millioknal ugyse kerÃ¼l tÃ¶bbe
     CONSTRAINT PK_BEAVATKOZAS PRIMARY KEY (BEAVATKOZAS_ID)
 );
 
--- Kapcsolótábla: melyik KEZELES során melyik BEAVATKOZAS történt
+-- KapcsolÃ³tÃ¡bla: melyik KEZELES sorÃ¡n melyik BEAVATKOZAS tÃ¶rtÃ©nt
 CREATE TABLE KEZELES_BEAVATKOZAS (
     KEZELES_ID      NUMBER(10) NOT NULL,
     BEAVATKOZAS_ID  NUMBER(10) NOT NULL,
-    MENNYISEG       NUMBER(2)  DEFAULT 1, ---100 dolog nem fog történni úgysem
+    MENNYISEG       NUMBER(2)  DEFAULT 1, ---100 dolog nem fog tÃ¶rtÃ©nni Ãºgysem
     CONSTRAINT PK_KEZELES_BEAVATKOZAS PRIMARY KEY (KEZELES_ID, BEAVATKOZAS_ID),
     CONSTRAINT FK_KB_KEZELES  FOREIGN KEY (KEZELES_ID)
         REFERENCES KEZELES(KEZELES_ID),
@@ -90,16 +90,16 @@ CREATE TABLE KEZELES_BEAVATKOZAS (
 );
 
 CREATE TABLE GYOGYSZER (
-    GYOGYSZER_ID  NUMBER(2)     NOT NULL, --nem ismerek 100 féle fajdalomcsillapitót
+    GYOGYSZER_ID  NUMBER(2)     NOT NULL, --nem ismerek 100 fÃ©le fajdalomcsillapitÃ³t
     GYOGYSZER_NEV           VARCHAR2(20)  NOT NULL, -- nem tudom milyen hosszu egy gyogyszer neve 
     CONSTRAINT PK_GYOGYSZER PRIMARY KEY (GYOGYSZER_ID)
 );
 
--- Kapcsolótábla: melyik KEZELES során melyik GYOGYSZER lett felírva
+-- KapcsolÃ³tÃ¡bla: melyik KEZELES sorÃ¡n melyik GYOGYSZER lett felÃ­rva
 CREATE TABLE KEZELES_GYOGYSZER (
     KEZELES_ID   NUMBER(10) NOT NULL,
     GYOGYSZER_ID NUMBER(10) NOT NULL,
-    MEGJEGYZES   VARCHAR2(200), -- kedvére írjon a doki amit akar úgysem fontos
+    MEGJEGYZES   VARCHAR2(200), -- kedvÃ©re Ã­rjon a doki amit akar Ãºgysem fontos
     
     CONSTRAINT PK_KEZELES_GYOGYSZER PRIMARY KEY (KEZELES_ID, GYOGYSZER_ID),
     CONSTRAINT FK_KG_KEZELES FOREIGN KEY (KEZELES_ID)
@@ -112,8 +112,8 @@ CREATE TABLE SZAMLA (
     SZAMLA_ID    NUMBER(10)     NOT NULL,
     KEZELES_ID   NUMBER(10)     NOT NULL,  
     KIALLITAS_DATUM DATE        NOT NULL,  
-    VEGOSSZEG    NUMBER(7)   NOT NULL,  -- több millió úgysem lesz az ára
-    FIZETES_MOD  VARCHAR2(10),             -- Pl. Készpénz, bankkártya
+    VEGOSSZEG    NUMBER(7)   NOT NULL,  -- tÃ¶bb milliÃ³ Ãºgysem lesz az Ã¡ra
+    FIZETES_MOD  VARCHAR2(10),             -- Pl. KÃ©szpÃ©nz, bankkÃ¡rtya
               
     CONSTRAINT PK_SZAMLA PRIMARY KEY (SZAMLA_ID),
     CONSTRAINT FK_SZAMLA_KEZELES FOREIGN KEY (KEZELES_ID)
