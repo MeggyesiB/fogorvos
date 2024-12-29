@@ -1,18 +1,9 @@
-# fogorvos
+# fogorvosi rendelő
 
-Ez egy fogorvosi rendelőhöz készült adatbázis. A helyszínen sokan dolgoznak.
+Ez egy fogorvosi rendelőhöz készült adatbázis. A helyszínen sokan dolgoznak, dokik és asszisztensek egyaránt.
+A fogorvosok mindenhez is értenek, nincs külön szakáguk.
 
-A projekt tartalma:
--páciensek
--orvosok
--mikor dolgoznak a dokik
--időpontok
--elvégzett beavatkozás(árral)
--felírt fájdalomcsillapító (árral)        |?szoktak mást is felírni?|
--és persze a számla.
 
-A projekt nem tartalmazza:
--asszintensek                             |legyen?|
--a dokikhoz egy adott szobát              |legyen?|
+
 
 
